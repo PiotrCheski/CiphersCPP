@@ -40,24 +40,22 @@ void encryptMessage() {
 
 
 void decryptMessage() {
-    if (userEncryptedMessage.length() == 0) {
+    if (userEncryptedMessage.empty()) {
         std::cout << "Create and Encrypt message\n";
     } else {
         userDecryptedMessage = userEncryptedMessage;
         for (char& c : userDecryptedMessage) {
-                if (std::isalpha(c)) {
-
-                    bool isUpper = std::isupper(c);
-
-                    char upperC = std::toupper(c);
-
-                    size_t position = Alphabet.find(upperC);
-
-                    position = (position - shift) % Alphabet.length();
-
-                    c = isUpper ? Alphabet[position] : std::tolower(Alphabet[position]);
-                }
+            if (std::isalpha(c)) {
+                bool isUpper = std::isupper(c);
+                char upperC = std::toupper(c);
+                size_t position = Alphabet.find(upperC);
+                
+                // Adjusting the shift direction for decryption
+                position = (position - shift + Alphabet.length()) % Alphabet.length();
+                
+                c = isUpper ? Alphabet[position] : std::tolower(Alphabet[position]);
             }
+        }
         std::cout << "Decrypted message: " << userDecryptedMessage << "\n";
     }
 }
@@ -77,7 +75,7 @@ void bruteforceEncryptedMessage() {
 
                     size_t position = Alphabet.find(upperC);
 
-                    position = (position - i) % Alphabet.length();
+                    position = (position - i + Alphabet.length()) % Alphabet.length();
                     
                     c = isUpper ? Alphabet[position] : std::tolower(Alphabet[position]);
 
